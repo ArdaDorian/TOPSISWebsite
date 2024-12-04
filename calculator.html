@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TOPSIS Calculator</title>
+  <link rel="stylesheet" href="styles_calculator.css">
+</head>
+<body>
+  <div class="container">
+    <div class="controls">
+      <button id="add-criteria">Add Criteria</button>
+      <button id="add-alternative">Add Alternative</button>
+      <button id="compute">Compute</button>
+      <button id="manualBtn">Manual</button>
+    </div>
+    <table id="dynamic-table">
+      <thead>
+        <tr>
+          <th>Criterias</th>
+          <th>Favorable</th>
+          <th class="weight">Weights</th>
+          <th class="alternative" contenteditable="true">Alternative 1</th>
+          <th class="alternative" contenteditable="true">Alternative 2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td contenteditable="true">Criteria 1</td>
+          <td><input type="checkbox"></td>
+          <td><input type="number" step="0.01" min="0" max="1" placeholder="0.5"></td>
+          <td><input type="number" placeholder="Value" class="alternativeValue"></td>
+          <td><input type="number" placeholder="Value" class="alternativeValue"></td>
+        </tr>
+        <tr>
+          <td contenteditable="true">Criteria 2</td>
+          <td><input type="checkbox" checked></td>
+          <td><input type="number" step="0.01" min="0" max="1" placeholder="0.5"></td>
+          <td><input type="number" placeholder="Value" class="alternativeValue"></td>
+          <td><input type="number" placeholder="Value" class="alternativeValue"></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="result-tab" id="result-tab">
+      <h2>Solution</h2>
+      <h3><span>The Ideal Alternative:</span><span class="solution-text" id="ideal-alternative-text">0</span></h3>
+      <h3><span>Ranking of Alternatives:</span><span class="solution-text" id="ideal-alternative-ranking">0</span></h3>
+      <h3><span>Scores for Ranked Alternatives:</span><span class="solution-text" id="ideal-alternative-scores">0</span></h3>
+    </div>
+  </div>
+  <div class="overlay" id="overlay">
+  <div class="popup" id="popup">
+    <div class="manual" id="manual"> 
+      <h2>Manual for TOPSIS Calculator</h2>
+      <div class="manual-content" id="manual-content">
+        <h3>Editable Criteria and Alternative Names</h3>
+        <p>All Criteria and Alternative names can be editable. By doing this, you can prevenet any confusion which can be occur in the future.</p>
+        <h3>Sum of Weights have to be 1</h3>
+        <p>All values in column of weights have to be sum of 1. It cannot be less or more than 1.</p>
+        <h3>Criteria Values have to Be in Same Unit</h3>
+        <p>Each row of criteria, values must be in same unit. If criteria 1 is represents weight all values in that row must be same with first value's unit (all kg or g)</p>
+      </div>
+        <div class ="close-manual-container">
+          <button type="button" class="close-manual" id="close-manual">Ok</button>
+        </div>
+    </div>
+  </div>
+</div>
+  <script src="topsis.js"></script>
+  <script src="script_calculator.js"></script>
+</body>
+</html>
