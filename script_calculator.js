@@ -1,8 +1,10 @@
 const table = document.getElementById('dynamic-table');
 const addCriteriaBtn = document.getElementById('add-criteria');
 const addAlternativeBtn = document.getElementById('add-alternative');
+const removeCriteriaBtn = document.getElementById('remove-criteria');
+const removeAlternativeBtn = document.getElementById('remove-alternative');
 const computeBtn = document.getElementById('compute');
-const howToUseBtn = document.getElementById('manualBtn');
+const openManualBtn = document.getElementById('manualBtn');
 const closeManualBtn = document.getElementById('close-manual');
 const popup = document.getElementById('popup');
 const overlay = document.getElementById('overlay');
@@ -49,14 +51,6 @@ function checkNullElementInMatrix(_matrix,_row)
   return checkNullElementInMatrix(_matrix,_row+1);
 }
 
-function displaySolution()
-{
-  document.getElementById('ideal-alternative-text').textContent;
-  document.getElementById('ideal-alternative-ranking').textContent;
-  document.getElementById('ideal-alternative-scores').textContent;
-  resultTab.style.display = 'block';
-}
-
 // Add a new criteria (row)
 addCriteriaBtn.addEventListener('click', () => {
   const newRow = document.createElement('tr');
@@ -82,6 +76,7 @@ addCriteriaBtn.addEventListener('click', () => {
   weightCell.appendChild(number);
   newRow.appendChild(weightCell);
   console.log(table.rows[0].cells.length);
+
   // Add input fields for each alternative
   const alternativeCount = table.rows[0].cells.length - 3; // -3 is offset
   for (let i = 0; i < alternativeCount; i++) {
@@ -120,6 +115,32 @@ addAlternativeBtn.addEventListener('click', () => {
       inputCell.appendChild(input);
       row.appendChild(inputCell);
     });
+});
+
+removeCriteriaBtn.addEventListener('click', () => {
+  const criteriaNumber = table.rows.length -1;
+  if(criteriaNumber<=2)
+    {
+      alert("You have minimum criteria number.");
+      return;
+    } 
+
+    table.deleteRow(criteriaNumber);
+});
+
+removeAlternativeBtn.addEventListener('click', ()=>{
+  const alternativeNumber = table.rows[0].cells.length - 3
+  if(alternativeNumber<=2)
+  {
+    alert("You have minimum alternative number.");
+    return;
+  }
+
+  Array.from(table.rows)
+  .forEach(row => {
+    row.deleteCell(-1);
+  });
+
 });
 
 computeBtn.addEventListener('click', () => {
@@ -199,7 +220,7 @@ computeBtn.addEventListener('click', () => {
   resultTab.style.display = 'block';
 });
 
-howToUseBtn.addEventListener('click', () =>{
+openManualBtn.addEventListener('click', () =>{
   overlay.style.display ='block';
   popup.style.display ='block';
 });
