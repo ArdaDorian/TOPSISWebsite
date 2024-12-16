@@ -33,16 +33,16 @@ function constructWeightedNormalizedMatrix(matrix, weights)
 function findIdealAndNegativeSolution(matrix, isFavorable) 
 {
   const arrLength = matrix.length;
-  const idealArray = Array(arrLength).fill(0);
-  const negativeArray = Array(arrLength).fill(0);
-  for (let rowIndex = 0; rowIndex < arrLength; rowIndex++) {
-    row=matrix[rowIndex];
-    if (isFavorable[rowIndex] <= 0) {
-      idealArray[rowIndex] = Math.min(...row);
-      negativeArray[rowIndex] = Math.max(...row);
-    } else if (isFavorable[rowIndex] <= 1) {
-      idealArray[rowIndex] = Math.max(...row);
-      negativeArray[rowIndex] = Math.min(...row);
+  const idealArray = Array(arrLength.length).fill(0);
+  const negativeArray = Array(arrLength.length).fill(0);
+  for (let i = 0; i < arrLength; i++) {
+    row=matrix[i];
+    if (isFavorable[i] <= 0) {
+      idealArray[i] = Math.min(...row);
+      negativeArray[i] = Math.max(...row);
+    } else if (isFavorable[i] <= 1) {
+      idealArray[i] = Math.max(...row);
+      negativeArray[i] = Math.min(...row);
     }
   }
 
@@ -53,19 +53,20 @@ function findIdealAndNegativeSolution(matrix, isFavorable)
 
 function calculateSeparationFromIdeal(matrix, idealSolutions, negativeSolutions) 
 {
-  const altLength = matrix[0].length;
-  const separationsIdeal = Array(idealSolutions.length).fill(0);
-  const separationsNegative = Array(idealSolutions.length).fill(0);
-  for(let i=0;i<altLength;i++)
+  const arrLength = matrix[0].length;
+  const separationsIdeal = Array(arrLength).fill(0);
+  const separationsNegative = Array(arrLength).fill(0);
+  
+  for(let i=0;i<matrix.length;i++)
   {
     const diffIdeal=matrix[i].map(x=> (x-idealSolutions[i])**2);
     const diffNegative=matrix[i].map(x=> (x- negativeSolutions[i])**2);
-    diffIdeal.forEach((value,j)=>{
-      separationsIdeal[j]+=value;
-    });
-    diffNegative.forEach((value,j)=>{
-      separationsNegative[j]+=value;
-    });
+
+    for (let j = 0; j < arrLength; j++) 
+      {
+        separationsIdeal[j]+=diffIdeal[j];
+        separationsNegative[j]+=diffNegative[j];
+      }
   }
   
   console.log(separationsIdeal.map(x => Math.sqrt(x)));
