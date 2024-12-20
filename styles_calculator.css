@@ -110,4 +110,12 @@ body {
     font-weight: normal;
     margin-left: 10px;
   }
+
+  .result-steps h3 {
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color: #333;
+  }
   

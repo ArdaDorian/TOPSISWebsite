@@ -20,7 +20,7 @@
       <thead>
         <tr>
           <th>Criterias</th>
-          <th>Favorable</th>
+          <th>Maximize</th>
           <th class="weight">Weights</th>
           <th class="alternative" contenteditable="true">Alternative 1</th>
           <th class="alternative" contenteditable="true">Alternative 2</th>
@@ -47,7 +47,70 @@
       <h2>Solution</h2>
       <h3><span>The Ideal Alternative:</span><span class="solution-text" id="ideal-alternative-text">0</span></h3>
       <h3><span>Ranking of Alternatives:</span><span class="solution-text" id="ideal-alternative-ranking">0</span></h3>
-      <h3><span>Scores for Ranked Alternatives:</span><span class="solution-text" id="ideal-alternative-scores">0</span></h3>
+      <h3><span>Scores for Ranked Alternatives:</span><span class="solution-text" id="ideal-alternative-scores">0</span></h3> 
+      <div class="result-steps" id="result-steps">
+        <h3>Normalized Table</h3>
+        <table id="normalized-table">
+          <thead>
+            <tr>
+              <th>Criterias</th>
+              <th>Maximize</th>
+              <th>Weights</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <h3>Weighted Table</h3>
+        <table id="weighted-table">
+          <thead>
+            <tr>
+              <th>Criterias</th>
+              <th>Maximize</th>
+              <th>Weights</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <h3>Ideal & Negative Ideal Solutions Table</h3>
+        <table id="ideal-negative-table">
+          <thead>
+            <tr>
+              <th>Criterias</th>
+              <th>A* (Ideal Solutions)</th>
+              <th>A' (Negative Ideal Solutions)</th>
+            </tr>
+          </thead>
+            <tbody></tbody>
+        </table>
+        <h3>Seperations from Ideal Solutions Table</h3>
+        <table id="seperation-table">
+          <thead>
+            <tr>
+              <th>Seperations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            <td>Si* (Seperation From Ideal)</td>
+            </tr>
+            <tr>
+            <td>Si' (Seperation From Negative Ideal)</td>
+            </tr>
+          </tbody>
+        </table>
+        <h3>Relative Closeness Table</h3>
+        <table id="closeness-table">
+          <thead>
+            <tr>
+              <th>Relative Closeness</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ci (Relative Closeness)</td>
+            </tr>
+          </tbody>
+        </table>
     </div>
   </div>
   <div class="overlay" id="overlay">
@@ -61,6 +124,8 @@
         <p>All values in column of weights have to be sum of 1. It cannot be less or more than 1.</p>
         <h3>Criteria Values have to Be in Same Unit</h3>
         <p>Each row of criteria, values must be in same unit. If criteria 1 is represents weight all values in that row must be same with first value's unit (all kg or g)</p>
+        <h3></h3>
+        <p></p>
       </div>
         <div class ="close-manual-container">
           <button type="button" class="close-manual" id="close-manual">Ok</button>

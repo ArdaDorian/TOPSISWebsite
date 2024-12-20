@@ -84,7 +84,7 @@ function calculateRelativeCloseness(ideal, negative, alternatives)
   const sortedNumbers = pairedSorted.map(pair => pair[0]);
   const sortedAlternatives = pairedSorted.map(pair => pair[1]);
 
-  return [sortedNumbers, sortedAlternatives];
+  return [closeness, sortedNumbers, sortedAlternatives];
 }
 
 function compute(alternatives, matrix, weights, favorable) 
@@ -93,6 +93,6 @@ function compute(alternatives, matrix, weights, favorable)
   const weightedNormalized = constructWeightedNormalizedMatrix(normalized, weights);
   const [idealSolutions, negativeSolutions] = findIdealAndNegativeSolution(weightedNormalized, favorable);
   const [separationIdeal,separationNegative] = calculateSeparationFromIdeal(weightedNormalized, idealSolutions,negativeSolutions);
-  const [relativeClosenessNumbers, relativeClosenessAlternatives] = calculateRelativeCloseness(separationIdeal, separationNegative, alternatives);
-  return [relativeClosenessNumbers, relativeClosenessAlternatives];
+  const [closeness, sortedCloseness, sortedAlternatives] = calculateRelativeCloseness(separationIdeal, separationNegative, alternatives);
+  return [normalized, weightedNormalized, idealSolutions, negativeSolutions, separationIdeal, separationNegative, closeness, sortedCloseness, sortedAlternatives];
 }

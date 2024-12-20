@@ -10,7 +10,6 @@ const popup = document.getElementById('popup');
 const overlay = document.getElementById('overlay');
 const resultTab = document.getElementById('result-tab');
 
-
 function sumArray(_array, _index)
 {
   if(_index===_array.length)
@@ -51,6 +50,120 @@ function checkNullElementInMatrix(_matrix,_row)
   return checkNullElementInMatrix(_matrix,_row+1);
 }
 
+//#region Create New Table
+function createTableForMatrix(matrix,weights,maximize,tableName)
+{
+  rowNumber = matrix.length;
+  columnNumber = matrix[0].length;
+  const matrixTable = document.getElementById(tableName);
+
+  // Headers
+  for (let i = 0; i < columnNumber; i++) 
+  {
+    const headerCell = document.createElement('th');
+    headerCell.textContent= table.rows[0].cells[3+i].textContent;
+    matrixTable.rows[0].appendChild(headerCell);
+  }
+
+  // Body
+  for (let i=0; i < rowNumber; i++)
+  {
+    const newRow = document.createElement('tr');
+
+    //Criteria Cell
+    const criteriaCell = document.createElement('td');
+    criteriaCell.textContent = table.rows[1+i].cells[0].textContent;
+    newRow.appendChild(criteriaCell);
+
+    //Maximize Cell
+    const maximizeCell = document.createElement('td');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.disabled=true;
+    checkbox.checked=maximize[i]; // Put Maximize
+    maximizeCell.appendChild(checkbox);
+    newRow.appendChild(maximizeCell);
+
+    // Weight cell
+    const weightCell = document.createElement('td');
+    weightCell.textContent = weights[i] // Put Weights
+    newRow.appendChild(weightCell);
+
+    const alternativeCount = table.rows[0].cells.length - 3; // -3 is offset
+    
+    for (let j = 0; j < alternativeCount; j++) 
+    {
+      const valueCell = document.createElement('td');
+      valueCell.textContent = matrix[i][j].toFixed(4);
+      newRow.appendChild(valueCell);
+    }
+    matrixTable.querySelector('tbody').appendChild(newRow);
+  }
+}
+
+function createTableForIdeal(ideal,negativeIdeal)
+{
+  const idealTable = document.getElementById("ideal-negative-table");
+  rowNumber = ideal.length;
+
+  for(let i=0;i<rowNumber;i++)
+  {
+    const newRow = document.createElement('tr');
+
+    //Criteria Cell
+    const criteriaCell = document.createElement('td');
+    criteriaCell.textContent = table.rows[1+i].cells[0].textContent;
+    newRow.appendChild(criteriaCell);
+
+    //Ideal Cell
+    const idealCell = document.createElement('td');
+    idealCell.textContent = ideal[i].toFixed(4);
+    newRow.appendChild(idealCell);
+
+    //Negative Ideal Cell
+    const negativeIdealCell = document.createElement('td');
+    negativeIdealCell.textContent = negativeIdeal[i].toFixed(4);
+    newRow.appendChild(negativeIdealCell);
+
+    idealTable.querySelector('tbody').appendChild(newRow);
+  }
+}
+
+function createTableForSeperations(seperationIdeal,seperationNegativeIdeal,alternatives)
+{
+  const seperationTable = document.getElementById("seperation-table");
+
+  for (let i = 0; i < alternatives.length; i++) 
+    {
+      const headerCell = document.createElement('th');
+      headerCell.textContent= alternatives[i];
+      seperationTable.rows[0].appendChild(headerCell);
+      const idealCell = document.createElement('td');
+      const negativeCell = document.createElement('td');
+      idealCell.textContent = seperationIdeal[i].toFixed(4);
+      negativeCell.textContent = seperationNegativeIdeal[i].toFixed(4);
+      seperationTable.rows[1].appendChild(idealCell);
+      seperationTable.rows[2].appendChild(negativeCell);
+    }
+}
+
+function createTableForCloseness(closeness, alternatives)
+{
+  const closenessTable = document.getElementById("closeness-table");
+
+  for (let i = 0; i < alternatives.length; i++) 
+    {
+      const headerCell = document.createElement('th');
+      headerCell.textContent= alternatives[i];
+      closenessTable.rows[0].appendChild(headerCell);
+      const closenessCell = document.createElement('td');
+      closenessCell.textContent = closeness[i].toFixed(4);
+      closenessTable.rows[1].appendChild(closenessCell);
+    }
+}
+//#endregion
+
+//#region Button
 // Add a new criteria (row)
 addCriteriaBtn.addEventListener('click', () => {
   const newRow = document.createElement('tr');
@@ -61,12 +174,12 @@ addCriteriaBtn.addEventListener('click', () => {
   criteriaCell.textContent = `Criteria ${table.rows.length}`;
   newRow.appendChild(criteriaCell);
 
-  // Favorable cell
-  const favorableCell = document.createElement('td');
+  // Maximize cell
+  const maximizeCell = document.createElement('td');
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
-  favorableCell.appendChild(checkbox);
-  newRow.appendChild(favorableCell);
+  maximizeCell.appendChild(checkbox);
+  newRow.appendChild(maximizeCell);
   
   // Weight cell
   const weightCell = document.createElement('td');
@@ -79,7 +192,8 @@ addCriteriaBtn.addEventListener('click', () => {
 
   // Add input fields for each alternative
   const alternativeCount = table.rows[0].cells.length - 3; // -3 is offset
-  for (let i = 0; i < alternativeCount; i++) {
+  for (let i = 0; i < alternativeCount; i++) 
+  {
     const inputCell = document.createElement('td');
     const input = document.createElement('input');
     input.type = 'number';
@@ -145,12 +259,13 @@ removeAlternativeBtn.addEventListener('click', ()=>{
 
 computeBtn.addEventListener('click', () => {
 
+  // DELETE HERE
   const table = document.getElementById("dynamic-table");
   const rows = Array.from(table.querySelectorAll("tbody tr"));
   
   const matrix = [];
   const weights = [];
-  const favorable = [];
+  const maximize = [];
   const alternatives = [];
 
   rows.forEach((row, rowIndex) => {
@@ -167,7 +282,7 @@ computeBtn.addEventListener('click', () => {
 
     // Read Favorables
     const isFavorable = row.querySelector("input[type='checkbox']").checked ? 1 : 0;
-    favorable.push(isFavorable);
+    maximize.push(isFavorable);
 
     // Get Alternative Names
     if (rowIndex === 0) {
@@ -182,7 +297,7 @@ computeBtn.addEventListener('click', () => {
   console.log("Alternatives:", alternatives);
   console.log("Matrix:", matrix);
   console.log("Weights:", weights);
-  console.log("Favorable:", favorable);
+  console.log("Favorable:", maximize);
 
   //#region Control Inputs
   if(!checkNullElementInArray(weights,0))
@@ -207,19 +322,25 @@ computeBtn.addEventListener('click', () => {
   //#endregion
  
   // TOPSIS
-  const [relativeClosenessNumbers, sortedAlternatives] = compute(
+  const [normalized, weightedNormalized, idealSolutions, negativeSolutions, separationIdeal, separationNegative, closeness, sortedCloseness, sortedAlternatives] = compute(
     alternatives,
     matrix,
     weights,
-    favorable
+    maximize
   );
 
   document.getElementById('ideal-alternative-text').textContent = sortedAlternatives[0];
   document.getElementById('ideal-alternative-ranking').textContent = sortedAlternatives.join("> ");
-  document.getElementById('ideal-alternative-scores').textContent=relativeClosenessNumbers.join(", ");
+  document.getElementById('ideal-alternative-scores').textContent=sortedCloseness.map(x=>x.toFixed(4)).join(", ");
   resultTab.style.display = 'block';
+  createTableForMatrix(normalized,weights,maximize,'normalized-table');
+  createTableForMatrix(weightedNormalized,weights,maximize,'weighted-table');
+  createTableForIdeal(idealSolutions,negativeSolutions);
+  createTableForSeperations(separationIdeal,separationNegative,alternatives);
+  createTableForCloseness(closeness,alternatives);
 });
-
+//#endregion
+//#region Manual
 openManualBtn.addEventListener('click', () =>{
   overlay.style.display ='block';
   popup.style.display ='block';
@@ -229,3 +350,4 @@ closeManualBtn.addEventListener('click', () => {
   overlay.style.display ='none';
   popup.style.display ='none';
 });
+//#endregion
